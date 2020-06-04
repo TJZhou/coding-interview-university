@@ -16,6 +16,8 @@ public class DSHashMap<K, V> {
 
     private final int MAX_SIZE = 1 << 30;
 
+    private final float loadFactor = 0.75f;
+
     @SuppressWarnings("unchecked")
     private Node<K, V>[] bucket = new Node[BUCKET_SIZE];
 
@@ -49,7 +51,7 @@ public class DSHashMap<K, V> {
             Node<K, V> newNode = new Node<>(key, val, dummy);
             bucket[hashCode] = newNode;
             size++;
-            if(size == BUCKET_SIZE) {
+            if(size >= (BUCKET_SIZE * loadFactor)) {
                 grow();
             }
             return null;
@@ -93,7 +95,7 @@ public class DSHashMap<K, V> {
                 prev.next = node.next;
             }
             size--;
-            if(size == (BUCKET_SIZE >> 2)) {
+            if(size <= (BUCKET_SIZE >> 2) * loadFactor) {
                 shrink();
             }
             return node.value;

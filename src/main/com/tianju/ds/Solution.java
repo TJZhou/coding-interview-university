@@ -58,8 +58,6 @@ public class Solution {
 
     public static void main(String[] args) {
         Solution s = new Solution();
-        HashSet<Integer> ss = new HashSet<>();
-        HashMap<Integer, Integer> m = new HashMap<>();
 //        s.dqRun();
 //        s.jaggedArrayRun();
     }
