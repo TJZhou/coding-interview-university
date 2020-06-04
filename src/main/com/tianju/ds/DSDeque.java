@@ -5,40 +5,25 @@ package com.tianju.ds;
  * Jun 2, 2020
  * @param <T>
  */
-public class DSDeque<T> {
-    DSLinkedList<T> dsLinkedList = new DSLinkedList<>();
+public interface DSDeque<T> {
 
-    public DSDeque() {}
+    void offer(T t);
 
-    public void offer(T t) {
-        this.offerLast(t);
-    }
+    T poll();
 
-    public T poll() {
-        return this.pollFirst();
-    }
+    void offerFirst(T t);
 
-    public void offerFirst(T t) {
-        dsLinkedList.addFirst(t);
-    }
+    void push(T t);
 
-    public void offerLast(T t) {
-        dsLinkedList.addLast(t);
-    }
+    void offerLast(T t);
 
-    public T pollFirst() {
-        return dsLinkedList.removeFirst();
-    }
+    T pop();
 
-    public T pollLast() {
-        return dsLinkedList.removeLast();
-    }
+    T pollFirst();
 
-    public T peekFirst() {
-        return dsLinkedList.getFirst();
-    }
+    T pollLast();
 
-    public T peekLast() {
-        return dsLinkedList.getLast();
-    }
+    T peekFirst();
+
+    T peekLast();
 }

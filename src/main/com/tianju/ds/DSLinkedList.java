@@ -7,7 +7,7 @@ import java.util.NoSuchElementException;
  * Jun 2, 2020
  * @param <T>
  */
-public class DSLinkedList<T> {
+public class DSLinkedList<T> implements DSDeque<T>{
 
     private static class Node<T> {
         Node<T> next;
@@ -156,5 +156,55 @@ public class DSLinkedList<T> {
             node = node.next;
         }
         return sb.toString();
+    }
+
+    @Override
+    public void offer(T t) {
+        this.addLast(t);
+    }
+
+    @Override
+    public T poll() {
+        return this.removeFirst();
+    }
+
+    @Override
+    public void offerFirst(T t) {
+        this.addFirst(t);
+    }
+
+    @Override
+    public void push(T t) {
+        this.addFirst(t);
+    }
+
+    @Override
+    public void offerLast(T t) {
+        this.addLast(t);
+    }
+
+    @Override
+    public T pop() {
+        return this.removeFirst();
+    }
+
+    @Override
+    public T pollFirst() {
+        return this.removeFirst();
+    }
+
+    @Override
+    public T pollLast() {
+        return this.removeLast();
+    }
+
+    @Override
+    public T peekFirst() {
+        return this.getFirst();
+    }
+
+    @Override
+    public T peekLast() {
+        return this.getLast();
     }
 }

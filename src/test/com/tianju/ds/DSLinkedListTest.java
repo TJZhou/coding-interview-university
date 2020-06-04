@@ -4,6 +4,10 @@ package com.tianju.ds;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Tianju Zhou
+ * Jun 2, 2020
+ */
 public class DSLinkedListTest {
 
     @Test
