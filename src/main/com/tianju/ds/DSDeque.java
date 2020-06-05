@@ -7,6 +7,10 @@ package com.tianju.ds;
  */
 public interface DSDeque<T> {
 
+    int size();
+
+    boolean isEmpty();
+
     void offer(T t);
 
     T poll();

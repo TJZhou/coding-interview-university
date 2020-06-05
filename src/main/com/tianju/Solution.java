@@ -1,4 +1,4 @@
-package com.tianju.ds;
+package com.tianju;
 
 import java.util.*;
 
