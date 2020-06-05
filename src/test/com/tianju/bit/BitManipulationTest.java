@@ -11,7 +11,6 @@ public class BitManipulationTest {
 
     @Test
     public void negativeNumberTest() {
-
         int a1 = 4;
         // divided by 2
         Assertions.assertEquals(a1 >> 1, 2);
