@@ -1,78 +1,55 @@
 package com.tianju.tree;
 
-import com.tianju.ds.DSDeque;
-import com.tianju.ds.DSLinkedList;
-
 /**
  * Tianju Zhou
  * Jun 4, 2020
  */
-public class BinaryTree<T> {
-    TreeNode<T> root;
+public interface BinaryTree<T extends Comparable<T>> {
 
-    public void bfs() {
-        bfs(root);
-    }
+    class TreeNode<T extends Comparable<T>> {
+        T val;
+        TreeNode<T> parent;
+        TreeNode<T> left;
+        TreeNode<T> right;
 
-    public void bfs(TreeNode<T> node) {
-        if(node == null) return;
-        DSDeque<TreeNode<T>> dq = new DSLinkedList<>();
-        dq.offer(node);
-        while(!dq.isEmpty()) {
-            int size = dq.size();
-            for(int i = 0; i < size; i++) {
-                TreeNode<T> n = dq.poll();
-                /*
-                 * do something for BFS
-                 */
-                if(n.left != null) dq.offer(n.left);
-                if(n.right != null) dq.offer(n.right);
-            }
+        TreeNode(T val, TreeNode<T> parent) {
+            this.val = val;
+            this.parent = parent;
+        }
+
+        void addLeft(T val) {
+            this.left = new TreeNode<>(val, this);
+        }
+
+        void addRight(T val) {
+            this.right = new TreeNode<>(val, this);
         }
     }
 
-    public void inOrder() {
-        inOrder(root);
-    }
+    boolean search(T t);
 
-    public void inOrder(TreeNode<T> node) {
-        if(node == null) {
-            return;
-        }
-        inOrder(node.left);
-        /*
-         * do something for in-order traversal
-         */
-        inOrder(node.right);
-    }
+    boolean insert(T t);
 
-    public void preOrder() {
-        preOrder(root);
-    }
+    boolean delete(T t);
 
-    public void preOrder(TreeNode<T> node) {
-        if(node == null) {
-            return;
-        }
-        /*
-          do something for pre-order traversal
-         */
-        preOrder(node.left);
-        preOrder(node.right);
-    }
+    void bfs();
 
-    public void postOrder() {
-        postOrder(root);
-    }
+    void bfs(TreeNode<T> node);
 
-    public void postOrder(TreeNode<T> node) {
-        if(node == null) {
-            return;
-        }
-        postOrder(node.left);
-        postOrder(node.right);
-        /*
-          do something for post-order traversal
-         */
-    }
+    void inOrder();
+
+    void inOrder(TreeNode<T> node);
+
+    void preOrder();
+
+    void preOrder(TreeNode<T> node);
+
+    void postOrder();
+
+    void postOrder(TreeNode<T> node);
+
+    TreeNode<T> getRoot();
+
+    int size();
+
 }
