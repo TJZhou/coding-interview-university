@@ -32,6 +32,8 @@ public interface BinaryTree<T extends Comparable<T>> {
 
     boolean delete(T t);
 
+    int height();
+
     void bfs();
 
     void bfs(TreeNode<T> node);

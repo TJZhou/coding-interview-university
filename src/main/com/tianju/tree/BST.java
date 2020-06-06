@@ -18,9 +18,9 @@ public class BST<T extends Comparable<T>> implements BinaryTree<T> {
         this.root = null;
     }
 
-    public BST(TreeNode<T> root) {
+    public BST(T val) {
         this.size = 1;
-        this.root = root;
+        this.root = new TreeNode<>(val, null);
     }
 
     public boolean search(T t) {
@@ -77,74 +77,75 @@ public class BST<T extends Comparable<T>> implements BinaryTree<T> {
     // only return true if element t exists in BST
     public boolean delete(T t) {
         TreeNode<T> node = root;
-        boolean tExits = deleteHelper(node, t);
-        if(tExits) size--;
-        return tExits;
+        int prevSize = size;
+        root = deleteHelper(node, t);
+        return prevSize != size;
     }
 
-    private boolean deleteHelper(TreeNode<T> n, T t) {
+    private TreeNode<T> deleteHelper(TreeNode<T> n, T t) {
         if(n == null) {
-            return false;
+            return null;
         }
         if(t.compareTo(n.val) < 0) {
-            return deleteHelper(n.left, t);
+            n.left = deleteHelper(n.left, t);
         } else if(t.compareTo(n.val) > 0) {
-            return deleteHelper(n.right, t);
+            n.right = deleteHelper(n.right, t);
         } else {
-            deleteNode(n, t);
-            return true;
-        }
-    }
-
-    private void deleteNode(TreeNode<T> n, T t) {
-        // n is leaf node
-        if(n.left == null && n.right == null) {
-            if(n == root) root = null;
-            else {
-                if(t.compareTo(n.parent.val) < 0) n.parent.left = null;
-                else n.parent.right = null;
-            }
-        // both left and right child of n is not null
-        } else if(n.left != null && n.right != null) {
-            n.val = smallestValueInRightSubtree(n.right);
-        // left child of n is not null, right child is null
-        } else if(n.left != null){
-            if(n == root) {
-                root = root.left;
-                root.parent = null;
-            }
-            else {
-                if(t.compareTo(n.parent.val) < 0) n.parent.left = n.left;
-                else n.parent.right = n.left;
-                n.left.parent = n.parent;
-            }
-        // right child of n is not null, left chils is null
-        } else {
-            if(n == root) {
-                root = root.right;
-                root.parent = null;
-            }
-            else {
-                if(t.compareTo(n.parent.val) < 0) n.parent.left = n.right;
-                else n.parent.right = n.right;
+            if(n.left != null || n.right != null || n == root) size--;
+            if(n.left == null && n.right == null) {
+                return null;
+            } else if(n.left == null) {
+                // change parent node
                 n.right.parent = n.parent;
+                return n.right;
+            } else if(n.right == null) {
+                n.left.parent = n.parent;
+                return n.left;
+            } else {
+                n.val = min(n.right);
+                n.right = deleteHelper(n.right, n.val);
             }
         }
+        return n;
     }
 
-    private T smallestValueInRightSubtree(TreeNode<T> n) {
-        TreeNode<T> node = n;
+    public int height() {
+        if(root == null) throw new NullPointerException("Tree is empty");
+        TreeNode<T> node = root;
+        return heightHelper(node);
+    }
+
+    private int heightHelper(TreeNode<T> n) {
+        if(n == null) return -1;
+        int leftHeight = heightHelper(n.left);
+        int rightHeight = heightHelper(n.right);
+        return Math.max(leftHeight, rightHeight) + 1;
+    }
+
+    public T min() {
+        TreeNode<T> node = root;
+        return min(node);
+    }
+
+    private T min(TreeNode<T> n) {
+        if(n == null) throw new NullPointerException("Node is empty");
         while(n.left != null) {
             n = n.left;
         }
-        T val = n.val;
-        if(n == node) {
-            n.parent.right = n.right;
-            n.right.parent = n.parent;
-        } else {
-            n.parent.left = null;
+        return n.val;
+    }
+
+    public T max() {
+        TreeNode<T> node = root;
+        return max(node);
+    }
+
+    private T max(TreeNode<T> n) {
+        if(n == null) throw new NullPointerException("Node is empty");
+        while(n.right != null) {
+            n = n.right;
         }
-        return val;
+        return n.val;
     }
 
     public void bfs() {
@@ -218,6 +219,7 @@ public class BST<T extends Comparable<T>> implements BinaryTree<T> {
     }
 
     public TreeNode<T> getRoot() {
+        if(root == null) throw new NullPointerException("Tree is empty!");
         return root;
     }
 
