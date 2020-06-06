@@ -5,7 +5,7 @@ package com.tianju.ds;
  * Jun 2, 2020
  * @param <T>
  */
-public interface DSDeque<T> {
+public interface DSDeque<T> extends DSQueue<T>{
 
     int size();
 
@@ -13,21 +13,25 @@ public interface DSDeque<T> {
 
     void offer(T t);
 
-    T poll();
-
     void offerFirst(T t);
-
-    void push(T t);
 
     void offerLast(T t);
 
-    T pop();
+    T poll();
 
     T pollFirst();
 
     T pollLast();
 
+    T peek();
+
     T peekFirst();
 
     T peekLast();
+
+    void push(T t);
+
+    T pop();
+
+    boolean remove(T t);
 }

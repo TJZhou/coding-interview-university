@@ -1,12 +1,15 @@
 package com.tianju.tree;
 
+import com.tianju.ds.DSDeque;
+import com.tianju.ds.DSLinkedList;
+
 /**
  * Tianju Zhou
  * Jun 4, 2020
  */
-public interface BinaryTree<T extends Comparable<T>> {
+public abstract class BinaryTree<T extends Comparable<T>> {
 
-    class TreeNode<T extends Comparable<T>> {
+    static class TreeNode<T extends Comparable<T>> {
         T val;
         TreeNode<T> parent;
         TreeNode<T> left;
@@ -26,32 +29,114 @@ public interface BinaryTree<T extends Comparable<T>> {
         }
     }
 
-    boolean search(T t);
+    TreeNode<T> root;
+    int size;
 
-    boolean insert(T t);
+   public  BinaryTree() {
+        this.root = null;
+        this.size = 0;
+    }
 
-    boolean delete(T t);
+    public BinaryTree(T val) {
+        this.size = 1;
+        this.root = new TreeNode<>(val, null);
+    }
 
-    int height();
+    abstract boolean search(T t);
 
-    void bfs();
+    abstract boolean insert(T t);
 
-    void bfs(TreeNode<T> node);
+    abstract  boolean delete(T t);
 
-    void inOrder();
+    public int height() {
+        if(root == null) throw new NullPointerException("Tree is empty");
+        TreeNode<T> node = root;
+        return heightHelper(node);
+    }
 
-    void inOrder(TreeNode<T> node);
+    private int heightHelper(TreeNode<T> n) {
+        if(n == null) return -1;
+        int leftHeight = heightHelper(n.left);
+        int rightHeight = heightHelper(n.right);
+        return Math.max(leftHeight, rightHeight) + 1;
+    }
 
-    void preOrder();
+    public void bfs() {
+        TreeNode<T> node = root;
+        bfs(node);
+    }
 
-    void preOrder(TreeNode<T> node);
+    public void bfs(TreeNode<T> node) {
+        if(node == null) return;
+        DSDeque<TreeNode<T>> dq = new DSLinkedList<>();
+        dq.offer(node);
+        while(!dq.isEmpty()) {
+            int size = dq.size();
+            for(int i = 0; i < size; i++) {
+                TreeNode<T> n = dq.poll();
+                /*
+                 * do something for BFS
+                 */
+                if(n.left != null) dq.offer(n.left);
+                if(n.right != null) dq.offer(n.right);
+            }
+        }
+    }
 
-    void postOrder();
+    public void inOrder() {
+        TreeNode<T> node = root;
+        inOrder(node);
+    }
 
-    void postOrder(TreeNode<T> node);
+    public void inOrder(TreeNode<T> node) {
+        if(node == null) {
+            return;
+        }
+        inOrder(node.left);
+        /*
+         * do something for in-order traversal
+         */
+        inOrder(node.right);
+    }
 
-    TreeNode<T> getRoot();
+    public void preOrder() {
+        TreeNode<T> node = root;
+        preOrder(node);
+    }
 
-    int size();
+    public void preOrder(TreeNode<T> node) {
+        if(node == null) {
+            return;
+        }
+        /*
+          do something for pre-order traversal
+         */
+        preOrder(node.left);
+        preOrder(node.right);
+    }
 
+    public void postOrder() {
+        TreeNode<T> node = root;
+        postOrder(node);
+    }
+
+    public void postOrder(TreeNode<T> node) {
+        if(node == null) {
+            return;
+        }
+        postOrder(node.left);
+        postOrder(node.right);
+        /*
+          do something for post-order traversal
+         */
+    }
+
+    public TreeNode<T> getRoot() {
+        if(root == null) throw new NullPointerException("Tree is empty!");
+        return root;
+    }
+
+    public int size() {
+        return size;
+    }
 }

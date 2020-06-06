@@ -95,20 +95,20 @@ public class DSLinkedList<T> implements DSDeque<T>{
         return last.prev.val;
     }
 
-    public void remove(T t) {
+    public boolean remove(T t) {
         Node<T> node = first.next;
         while(node != last) {
             if(node.val.equals(t)) {
                 link(node);
                 size--;
-                return;
+                return true;
             }
             node = node.next;
         }
-        throw new NoSuchElementException();
+        return false;
     }
 
-    public void remove(int idx) {
+    public boolean remove(int idx) {
         if(idx < 0 || idx > size) {
             throw new ArrayIndexOutOfBoundsException(idx);
         }
@@ -118,6 +118,7 @@ public class DSLinkedList<T> implements DSDeque<T>{
         }
         link(node);
         size--;
+        return true;
     }
 
     public T removeFirst() {
@@ -162,23 +163,18 @@ public class DSLinkedList<T> implements DSDeque<T>{
         this.addLast(t);
     }
 
-    public T poll() {
-        return this.removeFirst();
-    }
 
     public void offerFirst(T t) {
         this.addFirst(t);
     }
 
-    public void push(T t) {
-        this.addFirst(t);
-    }
 
     public void offerLast(T t) {
         this.addLast(t);
     }
 
-    public T pop() {
+
+    public T poll() {
         return this.removeFirst();
     }
 
@@ -190,11 +186,23 @@ public class DSLinkedList<T> implements DSDeque<T>{
         return this.removeLast();
     }
 
+    public T peek() {
+        return this.getFirst();
+    }
+
     public T peekFirst() {
         return this.getFirst();
     }
 
     public T peekLast() {
         return this.getLast();
+    }
+
+    public void push(T t) {
+        this.addFirst(t);
+    }
+
+    public T pop() {
+        return this.removeFirst();
     }
 }

@@ -41,11 +41,15 @@ public class DSLinkedListTest {
         dsLinkedList.insert(0,2);
         dsLinkedList.insert(0,1);
 
-        dsLinkedList.remove(2);
+        Assertions.assertThrows(ArrayIndexOutOfBoundsException.class, () -> dsLinkedList.remove(-1));
+        Assertions.assertTrue(dsLinkedList.remove(2));
+        Integer ele = 6;
+        Assertions.assertFalse(dsLinkedList.remove(ele));
         Assertions.assertEquals(4, dsLinkedList.size());
         Assertions.assertEquals(4, dsLinkedList.get(2));
 
-        dsLinkedList.removeFirst();
+        ele = 1;
+        Assertions.assertTrue(dsLinkedList.remove(ele));
         Assertions.assertEquals(3, dsLinkedList.size());
         Assertions.assertEquals(2, dsLinkedList.getFirst());
 
