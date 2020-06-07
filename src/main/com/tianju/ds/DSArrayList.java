@@ -19,6 +19,8 @@ public class DSArrayList<T> {
     }
 
     public DSArrayList(int size) {
+        if(size < 0)
+            throw new IllegalArgumentException("Illegal size");
         ARRAY_SIZE = size;
         elements = new Object[ARRAY_SIZE];
     }
